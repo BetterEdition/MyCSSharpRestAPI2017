@@ -32,8 +32,12 @@ namespace CustomerAppBLL.Services
             
             
         }
+        
 
-       
+
+        
+
+
         public CustomerBO Delete(int Id)
         {
             using (var uow = facade.UnitOfWork)

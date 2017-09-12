@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using CustomerAppBLL;
+using CustomerAppBLL.BusinessObjects;
 
 namespace CustomerRestAPI
 {
@@ -32,6 +34,31 @@ namespace CustomerRestAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                var facade = new BLLFacade();
+                facade.CustomerService.Create(
+                    new CustomerBO() {
+                        FirstName = "Tenna",
+                        LastName = "Jenna",
+                        Address = "Boulevard of broken code"
+
+                    });
+                facade.CustomerService.Create(
+                    new CustomerBO()
+                    {
+                        FirstName = "Tage",
+                        LastName = "Frans",
+                        Address = "Desert"
+
+                    });
+                facade.OrderService.Create(
+                    new OrderBO()
+                    {
+                        DeliveryDate = DateTime.Now.AddMonths(1),
+                        OrderDate = DateTime.Now.AddMonths(-1)
+
+
+                    }
+                    );
             }
 
             app.UseMvc();
