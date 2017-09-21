@@ -35,11 +35,20 @@ namespace CustomerRestAPI
             {
                 app.UseDeveloperExceptionPage();
                 var facade = new BLLFacade();
+
+                var address = facade.AddressService.Create(
+                    new AddressBO()
+                    {
+                        City = "Esbjerg",
+                        Street = "Ragerikkenogen",
+                        Number = "63T"
+                    });
+
                 var cust = facade.CustomerService.Create(
                     new CustomerBO() {
                         FirstName = "Tenna",
                         LastName = "Jenna",
-                        Address = "Boulevard of broken code"
+                        Addresses = new List<AddressBO> {address }
 
                     });
                 facade.CustomerService.Create(
@@ -47,7 +56,7 @@ namespace CustomerRestAPI
                     {
                         FirstName = "Tage",
                         LastName = "Frans",
-                        Address = "Desert"
+                        Addresses = new List<AddressBO> { address }
 
                     });
                 for (int i = 0; i < 10000; i++)
