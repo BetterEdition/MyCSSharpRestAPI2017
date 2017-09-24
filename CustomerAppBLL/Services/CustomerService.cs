@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using CustomerAppDAL;
 using System.Linq;
 using CustomerAppBLL.BusinessObjects;
 using CustomerAppBLL.Converters;
-using CustomerAppDAL.Entities;
-
+using CustomerAppDAL;
 
 namespace CustomerAppBLL.Services
 {
-    class CustomerService : ICustomerService
+    internal class CustomerService : ICustomerService
     {
-        DALFacade facade;
-        private CustomerConverter conv = new CustomerConverter();
+        private readonly AddressConverter aConv = new AddressConverter();
+        private readonly CustomerConverter conv = new CustomerConverter();
+        private readonly DALFacade facade;
 
         public CustomerService(DALFacade facade)
         {
@@ -26,16 +24,10 @@ namespace CustomerAppBLL.Services
             {
                 var newCust = uow.CustomerRepository.Create(conv.Convert(cust));
                 uow.Complete();
-               
+
                 return conv.Convert(newCust);
             }
-            
-            
         }
-        
-
-
-        
 
 
         public CustomerBO Delete(int Id)
@@ -46,18 +38,24 @@ namespace CustomerAppBLL.Services
                 uow.Complete();
                 return conv.Convert(newCust);
             }
-            
-      
         }
 
         public CustomerBO Get(int Id)
         {
-            
             using (var uow = facade.UnitOfWork)
             {
-                return conv.Convert(uow.CustomerRepository.Get(Id));
-            }
+                var cust = conv.Convert(uow.CustomerRepository.Get(Id));
 
+                //cust.Addresses =
+                //    cust.AddressIds?
+                //        .Select(id => aConv.Convert(uow.AddressRepository.Get(id)))
+                //        .ToList();
+                cust.Addresses = uow.AddressRepository.GetAllById(cust.AddressIds)
+                    .Select(a => aConv.Convert(a))
+                    .ToList();
+
+                return cust;
+            }
         }
 
         public List<CustomerBO> GetAll()
@@ -75,22 +73,27 @@ namespace CustomerAppBLL.Services
             {
                 var customerFromDb = uow.CustomerRepository.Get(cust.Id);
                 if (customerFromDb == null)
-                {
                     throw new InvalidOperationException("Customer not found");
-                }
                 var customerUpdated = conv.Convert(cust);
                 customerFromDb.FirstName = customerUpdated.FirstName;
                 customerFromDb.LastName = customerUpdated.LastName;
-                customerFromDb.Addresses = customerUpdated.Addresses;
+
+                customerFromDb.Addresses.RemoveAll(
+                    ca => !customerUpdated.Addresses.Exists(
+                          a => a.AddressId == ca.AddressId
+                          && a.CustomerId == ca.CustomerId));
+
+                customerUpdated.Addresses.RemoveAll(
+                    ca => customerFromDb.Addresses.Exists(
+                        a => a.AddressId == ca.AddressId
+                                  && a.CustomerId == ca.CustomerId));
+
+                customerFromDb.Addresses.AddRange(
+                    customerUpdated.Addresses);
+
                 uow.Complete();
                 return conv.Convert(customerFromDb);
             }
-            
-            
-
-
         }
-
-        
     }
 }

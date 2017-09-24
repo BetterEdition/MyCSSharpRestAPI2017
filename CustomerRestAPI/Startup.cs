@@ -36,7 +36,21 @@ namespace CustomerRestAPI
                 app.UseDeveloperExceptionPage();
                 var facade = new BLLFacade();
 
-                var address = facade.AddressService.Create(
+                var address1 = facade.AddressService.Create(
+                    new AddressBO()
+                    {
+                        City = "Esbjerg",
+                        Street = "Ragerikkenogen",
+                        Number = "63T"
+                    });
+                var address2 = facade.AddressService.Create(
+                    new AddressBO()
+                    {
+                        City = "Esbjerg",
+                        Street = "Ragerikkenogen",
+                        Number = "63T"
+                    });
+                var address3 = facade.AddressService.Create(
                     new AddressBO()
                     {
                         City = "Esbjerg",
@@ -48,7 +62,7 @@ namespace CustomerRestAPI
                     new CustomerBO() {
                         FirstName = "Tenna",
                         LastName = "Jenna",
-                        Addresses = new List<AddressBO> {address }
+                        AddressIds = new List<int> { address1.Id,address3.Id }
 
                     });
                 facade.CustomerService.Create(
@@ -56,10 +70,10 @@ namespace CustomerRestAPI
                     {
                         FirstName = "Tage",
                         LastName = "Frans",
-                        Addresses = new List<AddressBO> { address }
+                        AddressIds = new List<int> {address1.Id, address2.Id }
 
                     });
-                for (int i = 0; i < 10000; i++)
+                for (int i = 0; i < 5; i++)
                 {
                     facade.OrderService.Create(
                         new OrderBO()

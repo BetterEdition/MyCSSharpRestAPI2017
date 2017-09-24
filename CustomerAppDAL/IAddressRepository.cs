@@ -12,6 +12,7 @@ namespace CustomerAppDAL
 
         //R
         List<Address> GetAll();
+        IEnumerable<Address> GetAllById(List<int> ids);
         Address Get(int Id);
 
         //No update for Repository, it will be a task for the unit of work 

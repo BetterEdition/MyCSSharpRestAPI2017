@@ -27,14 +27,16 @@ namespace CustomerAppDAL.Repository
 
         public List<Customer> GetAll()
         {
-            return _context.Customers.
-                Include(c => c.Addresses).
+            return _context.Customers
+                .Include(c => c.Addresses).
                 ToList();
         }
 
         public Customer Get(int Id)
         {
-            return _context.Customers.FirstOrDefault(x => x.Id == Id);
+            return _context.Customers
+                .Include(c => c.Addresses).
+                FirstOrDefault(x => x.Id == Id);
         }
 
         public Customer Delete(int Id)
