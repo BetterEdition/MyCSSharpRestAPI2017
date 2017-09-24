@@ -8,7 +8,7 @@ namespace CustomerAppDAL.Entities
     {
         public String FirstName { get; set; }
         public String LastName { get; set; }
-        public List<Address> Addresses { get; set; }
+        public List<CustomerAddress> Addresses { get; set; }
 
         public int Id { get; set; }
 

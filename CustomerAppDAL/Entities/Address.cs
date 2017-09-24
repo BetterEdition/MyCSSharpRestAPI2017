@@ -13,6 +13,6 @@ namespace CustomerAppDAL.Entities
 
         public string City { get; set; }
 
-        List<Customer> Customer { get; set; }
+        public List<CustomerAddress> Customers { get; set; }
     }
 }

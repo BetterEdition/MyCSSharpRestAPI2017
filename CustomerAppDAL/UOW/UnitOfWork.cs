@@ -17,7 +17,7 @@ namespace CustomerAppDAL.UOW
         public UnitOfWork()
         {
             context = new CustomerAppContext();
-            CustomerRepository = new CustomerRepositoryEFMemory(context);
+            CustomerRepository = new CustomerRepository(context);
             OrderRepository = new OrderRepository(context);
             AddressRepository = new AddressRepository(context);
         }
