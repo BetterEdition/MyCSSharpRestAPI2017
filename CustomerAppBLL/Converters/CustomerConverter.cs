@@ -23,7 +23,7 @@ namespace CustomerAppBLL.Converters
             return new Customer()
             {
                 Id = cust.Id,
-                Addresses = cust.Addresses?.Select(a => new CustomerAddress()
+                Addresses = cust.Addresses.Select(a => new CustomerAddress()
                 {
                     AddressId = a.Id,
                     CustomerId = cust.Id
