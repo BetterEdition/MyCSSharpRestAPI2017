@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text;
 using CustomerAppDAL.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +10,7 @@ namespace CustomerAppDAL.Context
 {
     class CustomerAppContext : DbContext
     {
+        
         static DbContextOptions<CustomerAppContext> options = 
             new DbContextOptionsBuilder<CustomerAppContext>()
             .UseInMemoryDatabase("TheDB").Options;
@@ -19,15 +22,22 @@ namespace CustomerAppDAL.Context
         //}
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string text = System.IO.File.ReadAllText(@"C:\Users\Jesper Enemark\Desktop\DBPassword.txt");
+            string filePath = @"C:\Program Files\DBPassword.txt";
+            string readText = File.ReadAllText(filePath);
+            
+
+            
             
             if (!optionsBuilder.IsConfigured)
 
             {
-                optionsBuilder.UseSqlServer(
-                    $@"Server=tcp:jesp6058server.database.windows.net,1433;Initial Catalog=CustomerAppDB;Persist Security Info=False;User ID=jesp6058;Password={text};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
-                    Console.WriteLine(text);
-                Console.ReadLine();
+                
+                
+                    optionsBuilder.UseSqlServer(
+                        $@"Server=tcp:jesp6058server.database.windows.net,1433;Initial Catalog=CustomerAppDB;Persist Security Info=False;User ID=jesp6058;Password=
+                        "+readText+@";MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+                
+                        
             }
                 
         }
