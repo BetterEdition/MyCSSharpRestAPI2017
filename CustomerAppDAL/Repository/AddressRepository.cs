@@ -28,6 +28,12 @@ namespace CustomerAppDAL.Repository
             return address;
         }
 
+        public IEnumerable<Address> GetAllById(List<int> ids)
+        {
+            if (ids == null) return null;
+            return _context.Addresses.Where(a => ids.Contains(a.Id));
+        }
+
         public Address Get(int Id)
         {
             return _context.Addresses.FirstOrDefault(a => a.Id == Id);

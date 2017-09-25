@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text;
 using CustomerAppDAL.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -8,15 +10,38 @@ namespace CustomerAppDAL.Context
 {
     class CustomerAppContext : DbContext
     {
+        
         static DbContextOptions<CustomerAppContext> options = 
             new DbContextOptionsBuilder<CustomerAppContext>()
             .UseInMemoryDatabase("TheDB").Options;
 
         //Options that we want in memory
-        public CustomerAppContext() : base(options)
-        {
+        //public CustomerAppContext() : base(options)
+        //{
             
+        //}
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            string filePath = @"C:\Program Files\DBPassword.txt";
+            string readText = File.ReadAllText(filePath);
+            
+
+            
+            
+            if (!optionsBuilder.IsConfigured)
+
+            {
+                
+                
+                    optionsBuilder.UseSqlServer(
+                        $@"Server=tcp:jesp6058server.database.windows.net,1433;Initial Catalog=CustomerAppDB;Persist Security Info=False;User ID=jesp6058;Password=
+                        "+readText+@";MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+                
+                        
+            }
+                
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<CustomerAddress>()
