@@ -18,27 +18,40 @@ namespace CustomerAppDAL.Context
         //Options that we want in memory
         //public CustomerAppContext() : base(options)
         //{
-            
+
         //}
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string filePath = @"C:\Program Files\DBPassword.txt";
-            string readText = File.ReadAllText(filePath);
             
-
+            bool checkText = File.Exists(@"C:\Program Files\DBPassword.txt");
+            bool checkText2 = File.Exists(@"C:\Users\Jespe\OneDrive\Dokumenter\DBPassword.txt");
             
             
             if (!optionsBuilder.IsConfigured)
 
             {
                 
-                
-                    optionsBuilder.UseSqlServer(
-                        $@"Server=tcp:jesp6058server.database.windows.net,1433;Initial Catalog=CustomerAppDB;Persist Security Info=False;User ID=jesp6058;Password=
-                        "+readText+@";MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
-                
-                        
+                    if (checkText)
+                    {
+                            string readText = File.ReadAllText(@"C:\Program Files\DBPassword.txt");
+
+                            optionsBuilder.UseSqlServer(
+                            $@"Server=tcp:jesp6058server.database.windows.net,1433;Initial Catalog=CustomerAppDB;Persist Security Info=False;User ID=jesp6058;Password=
+                            " + readText + @";MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+                    }
+                    else if (checkText2)
+                    {
+                            string readText2 = File.ReadAllText(@"C:\Users\Jespe\OneDrive\Dokumenter\DBPassword.txt");
+
+                            optionsBuilder.UseSqlServer(
+                            $@"Server=tcp:jesp6058server.database.windows.net,1433;Initial Catalog=CustomerAppDB;Persist Security Info=False;User ID=jesp6058;Password=
+                            " + readText2 + @";MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+                }
+
+
             }
+                
+      
                 
         }
 
