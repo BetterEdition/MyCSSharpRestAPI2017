@@ -31,22 +31,22 @@ namespace CustomerAppDAL.Context
 
             {
                 
-                    if (checkText)
-                    {
-                            string readText = File.ReadAllText(@"C:\Program Files\DBPassword.txt");
+                    //if (checkText)
+                    //{
+                    //        string readText = File.ReadAllText(@"C:\Program Files\DBPassword.txt");
+
+                            //optionsBuilder.UseSqlServer(
+                            //$@"Server=tcp:jesp6058server.database.windows.net,1433;Initial Catalog=CustomerAppDB;Persist Security Info=False;User ID=jesp6058;Password=
+                            //" + readText + @";MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+                    //}
+                    //else if (checkText2)
+                    //{
+                    //        string readText2 = File.ReadAllText(@"C:\Users\Jespe\OneDrive\Dokumenter\DBPassword.txt");
 
                             optionsBuilder.UseSqlServer(
                             $@"Server=tcp:jesp6058server.database.windows.net,1433;Initial Catalog=CustomerAppDB;Persist Security Info=False;User ID=jesp6058;Password=
-                            " + readText + @";MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
-                    }
-                    else if (checkText2)
-                    {
-                            string readText2 = File.ReadAllText(@"C:\Users\Jespe\OneDrive\Dokumenter\DBPassword.txt");
-
-                            optionsBuilder.UseSqlServer(
-                            $@"Server=tcp:jesp6058server.database.windows.net,1433;Initial Catalog=CustomerAppDB;Persist Security Info=False;User ID=jesp6058;Password=
-                            " + readText2 + @";MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
-                }
+                            S1234567!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+                //}
 
 
             }
