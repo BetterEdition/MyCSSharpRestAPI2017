@@ -26,6 +26,12 @@ namespace CustomerRestAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.WithOrigins("http://localhost:4200")
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -34,58 +40,7 @@ namespace CustomerRestAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                //var facade = new BLLFacade();
-
-                //var address1 = facade.AddressService.Create(
-                //    new AddressBO()
-                //    {
-                //        City = "Esbjerg",
-                //        Street = "Ragerikkenogen",
-                //        Number = "63T"
-                //    });
-                //var address2 = facade.AddressService.Create(
-                //    new AddressBO()
-                //    {
-                //        City = "Esbjerg",
-                //        Street = "Ragerikkenogen",
-                //        Number = "63T"
-                //    });
-                //var address3 = facade.AddressService.Create(
-                //    new AddressBO()
-                //    {
-                //        City = "Esbjerg",
-                //        Street = "Ragerikkenogen",
-                //        Number = "63T"
-                //    });
-
-                //var cust = facade.CustomerService.Create(
-                //    new CustomerBO() {
-                //        FirstName = "Tenna",
-                //        LastName = "Jenna",
-                //        AddressIds = new List<int> { address1.Id,address3.Id }
-
-                //    });
-                //facade.CustomerService.Create(
-                //    new CustomerBO()
-                //    {
-                //        FirstName = "Tage",
-                //        LastName = "Frans",
-                //        AddressIds = new List<int> {address1.Id, address2.Id }
-
-                //    });
-                //for (int i = 0; i < 5; i++)
-                //{
-                //    facade.OrderService.Create(
-                //        new OrderBO()
-                //        {
-                //            DeliveryDate = DateTime.Now.AddMonths(1),
-                //            OrderDate = DateTime.Now.AddMonths(-1),
-                //            CustomerId = cust.Id
-
-                //        }
-                //    );
-                //}
-               
+                
             }
 
             app.UseMvc();
